@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">csci310.web</a> &gt; <span class="el_source">AuthController.java</span></div><h1>AuthController.java</h1><pre class="source lang-java linenums">package csci310.web;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+import csci310.domain.*;
+import csci310.payload.*;
+import csci310.security.JwtUtils;
+import csci310.service.UserDetailsImpl;
+
+@CrossOrigin(origins = &quot;http://localhost:3000&quot;, allowedHeaders = &quot;*&quot;)
+@RestController
+@RequestMapping(&quot;/api&quot;)
+<span class="nc" id="L24">public class AuthController {</span>
+
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    PasswordEncoder encoder;
+    @Autowired
+    JwtUtils jwtUtils;
+
+    @PostMapping(&quot;/login&quot;)
+    @ResponseStatus(value= HttpStatus.OK)
+    public @ResponseBody ResponseEntity&lt;?&gt; Login(@Valid @RequestBody LoginRequest loginRequest) {
+<span class="nc" id="L38">        Authentication authentication = authenticationManager.authenticate(</span>
+<span class="nc" id="L39">                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));</span>
+
+<span class="nc" id="L41">        SecurityContextHolder.getContext().setAuthentication(authentication);</span>
+<span class="nc" id="L42">        String jwt = jwtUtils.generateJwtToken(authentication);</span>
+
+<span class="nc" id="L44">        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();</span>
+<span class="nc" id="L45">        List&lt;String&gt; roles = userDetails.getAuthorities().stream()</span>
+<span class="nc" id="L46">                .map(item -&gt; item.getAuthority())</span>
+<span class="nc" id="L47">                .collect(Collectors.toList());</span>
+
+<span class="nc" id="L49">        return ResponseEntity.ok(new JwtResponse(jwt,</span>
+<span class="nc" id="L50">                userDetails.getUsername(),</span>
+                roles));
+    }
+
+    @PostMapping(&quot;/register&quot;)
+    @ResponseStatus(value=HttpStatus.OK)
+    public @ResponseBody ResponseEntity&lt;?&gt; registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (userRepository.existsByUsername(registerRequest.getUsername())) {</span>
+<span class="nc" id="L58">            return ResponseEntity</span>
+<span class="nc" id="L59">                    .badRequest()</span>
+<span class="nc" id="L60">                    .body(new Message(&quot;Error: Username is already taken!&quot;));</span>
+        }
+<span class="nc" id="L62">        User user = new User(registerRequest.getUsername(),</span>
+<span class="nc" id="L63">                encoder.encode(registerRequest.getPassword()));</span>
+<span class="nc" id="L64">        String strRole = registerRequest.getRole();</span>
+<span class="nc" id="L65">        user.setRoles(strRole);</span>
+<span class="nc" id="L66">        userRepository.save(user);</span>
+<span class="nc" id="L67">        return ResponseEntity.ok(new Message(&quot;User registered successfully!&quot;));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

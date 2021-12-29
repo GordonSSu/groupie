@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: cucumber.RunCucumberTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.117 s <<< FAILURE! - in cucumber.RunCucumberTests
+initializationError  Time elapsed: 0.092 s  <<< ERROR!
+io.cucumber.core.gherkin.FeatureParserException: Failed to parse resource at: classpath:cucumber/loginAndRegister.feature
+Caused by: io.cucumber.core.gherkin.vintage.internal.gherkin.ParserException$CompositeParserException: 
+Parser errors:
+(12:5): expected: #EOF, #TableRow, #DocStringSeparator, #StepLine, #TagLine, #ScenarioLine, #ScenarioOutlineLine, #Comment, #Empty, got 'And'
+

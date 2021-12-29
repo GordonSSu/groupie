@@ -1,0 +1,79 @@
+.title{
+    margin-left:25%;
+    margin-top: 3%;
+    font-size: 60px;
+
+    font-family: Archivo Black;
+    font-weight: bold;
+}
+.RegisterForm h1{
+    font-family: Archivo Black;
+    font-weight: bold;
+}
+#blue{
+    color:#0085FF;
+}
+
+.LoginOuterContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.LoginInnerContainer{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.Login{
+    margin-left: 40%;
+}
+
+.Register{
+    margin:auto;
+    margin-top: 5%;
+}
+.Login, .Register{
+    border-radius: 30px;
+    padding: 3%;
+    width: 27%;
+    text-align: center;
+
+    background-color: rgba(255, 255, 255, 0.8);
+}
+Button{
+    width: 100%;
+}
+#username, #password, #confirmPassword{
+    background-color: #C9C9C9;
+}
+h6{
+    padding-top: 5%;
+}
+.loginRegisterBg{
+    background-image: url("../assets/meet.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.hide{
+    display: none;
+}
+.footer{
+    position:fixed;
+    bottom: 0;
+}
+
+.registerButton{
+    marginTop: "40px";
+}
+
+#passwordNotMatch{
+    color: red;
+}
+
+#passwordEmpty{
+    color: red;
+}
+.errorText{
+    color:red;
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Algorithm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">csci310</a> &gt; <span class="el_source">Algorithm.java</span></div><h1>Algorithm.java</h1><pre class="source lang-java linenums">package csci310;
+
+import csci310.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+<span class="fc" id="L11">public class Algorithm {</span>
+//    @Autowired
+//    UserPreferenceRepository userPreferenceRepository;
+
+    public long getOptimalEventId(PGD proposedGroupDate, UserPreferenceRepository userPreferenceRepository) {
+<span class="fc" id="L16">        List&lt;PGDEvent&gt; allPgdEvents = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L17">        long pgdId = proposedGroupDate.getId();</span>
+
+        // Convert each event to PGDEvent and add to list allPgdEvents
+<span class="fc bfc" id="L20" title="All 2 branches covered.">        for (Event event : proposedGroupDate.getEvents()) {</span>
+<span class="fc" id="L21">            long eventId = event.getId();</span>
+<span class="fc" id="L22">            long totalExcitement = 0;</span>
+<span class="fc" id="L23">            long numUsersAbleToAttend = 0;</span>
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">            for (User user : proposedGroupDate.getInvitedUsers()) {</span>
+<span class="fc" id="L26">                Optional&lt;UserPreference&gt; userPreferenceOptional = userPreferenceRepository.findById(user.getUsername(), pgdId, eventId);</span>
+<span class="fc" id="L27">                UserPreference userPreference = userPreferenceOptional.get();</span>
+
+<span class="pc bpc" id="L29" title="2 of 4 branches missed.">                if (userPreference.getIsSubmitted() &amp;&amp; userPreference.getIsAvailable() != 0) {</span>
+<span class="nc" id="L30">                    totalExcitement += userPreference.getExcitement();</span>
+<span class="nc" id="L31">                    numUsersAbleToAttend++;</span>
+                }
+<span class="fc" id="L33">            }</span>
+<span class="fc" id="L34">            allPgdEvents.add(new PGDEvent(eventId, totalExcitement, numUsersAbleToAttend));</span>
+<span class="fc" id="L35">        }</span>
+
+        // Sort PGDEvents in order of priority and return top pick
+<span class="fc" id="L38">        Collections.sort(allPgdEvents, Collections.reverseOrder());</span>
+<span class="fc" id="L39">        return allPgdEvents.get(0).eventId;</span>
+    }
+
+    /*
+     * Comparable class for PGDEvents that compares based on total excitement first
+     * and number of users available to attend second
+     */
+    class PGDEvent implements Comparable&lt;PGDEvent&gt; {
+        long eventId;
+        long totalExcitement;
+        long numUsersAbleToAttend;
+
+<span class="fc" id="L51">        PGDEvent(long eventId, long totalExcitement, long numUsersAbleToAttend) {</span>
+<span class="fc" id="L52">            this.eventId = eventId;</span>
+<span class="fc" id="L53">            this.totalExcitement = totalExcitement;</span>
+<span class="fc" id="L54">            this.numUsersAbleToAttend = numUsersAbleToAttend;</span>
+<span class="fc" id="L55">        }</span>
+
+        @Override
+        public int compareTo(PGDEvent otherPgdEvent) {
+<span class="pc bpc" id="L59" title="2 of 4 branches missed.">            if (totalExcitement == otherPgdEvent.totalExcitement &amp;&amp;</span>
+                    numUsersAbleToAttend == otherPgdEvent.numUsersAbleToAttend) {
+<span class="fc" id="L61">                return 0;</span>
+<span class="nc bnc" id="L62" title="All 6 branches missed.">            } else if (totalExcitement &gt; otherPgdEvent.totalExcitement ||</span>
+                    (totalExcitement == otherPgdEvent.totalExcitement &amp;&amp;
+                            numUsersAbleToAttend &gt; otherPgdEvent.numUsersAbleToAttend)) {
+<span class="nc" id="L65">                return 1;</span>
+            } else {
+<span class="nc" id="L67">                return -1;</span>
+            }
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

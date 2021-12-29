@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "./static/css/main.d2f82564.chunk.css",
+    "main.js": "./static/js/main.bd1db549.chunk.js",
+    "main.js.map": "./static/js/main.bd1db549.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.b1184879.js",
+    "runtime-main.js.map": "./static/js/runtime-main.b1184879.js.map",
+    "static/js/2.1c944414.chunk.js": "./static/js/2.1c944414.chunk.js",
+    "static/js/2.1c944414.chunk.js.map": "./static/js/2.1c944414.chunk.js.map",
+    "static/js/3.a20dbb67.chunk.js": "./static/js/3.a20dbb67.chunk.js",
+    "static/js/3.a20dbb67.chunk.js.map": "./static/js/3.a20dbb67.chunk.js.map",
+    "index.html": "./index.html",
+    "static/css/main.d2f82564.chunk.css.map": "./static/css/main.d2f82564.chunk.css.map",
+    "static/js/2.1c944414.chunk.js.LICENSE.txt": "./static/js/2.1c944414.chunk.js.LICENSE.txt",
+    "static/media/EventPage.css": "./static/media/backgroundimageEvent.d3978fbc.jpg",
+    "static/media/Login.css": "./static/media/meet.d0911e35.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b1184879.js",
+    "static/js/2.1c944414.chunk.js",
+    "static/css/main.d2f82564.chunk.css",
+    "static/js/main.bd1db549.chunk.js"
+  ]
+}

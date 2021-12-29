@@ -1,0 +1,100 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.UserProfile{
+    position: fixed;
+    float: left;
+    width: 38%;
+    background-color: white;
+    height: 100%;
+    margin-bottom: 0px;
+    opacity: 0.9;
+    text-align: center;
+}
+
+.button3{
+     background-color: #9ee7ff;
+     border-radius: 5px;
+     border: 2px #cfcfcf;
+     height: 30px;
+     width: 200px;
+     margin-top: 50px;
+ }
+
+.Events{
+    float: right;
+    width: 60%;
+    margin-right: 20px;
+    background-color: white;
+    border-radius: 5px;
+    border: 5px white;
+    height: 150px;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    opacity:0.9;
+}
+
+.titlenew{
+    font-family: Archivo Black;
+    font-weight: bold;
+}
+
+#blue{
+    color:#0085FF;
+}
+
+.Eventtitle1{
+    background-color: #22c32e;
+    height: 30px;
+    width: 97.1%;
+    margin-top: 0%;
+    border-radius: 5px 5px 0px 0px;
+    border: 5px #22c32e;
+    padding-left: 25px;
+    padding-top: 5px;
+    color: white;
+}
+
+.Eventtitle2{
+    background-color: #ffd700;
+    height: 30px;
+    width: 97.1%;
+    margin-top: 0%;
+    border-radius: 5px 5px 0px 0px;
+    border: 5px #ffd700;
+    padding-left: 25px;
+    padding-top: 5px;
+    color: white;
+}
+
+.Eventtitle3{
+    background-color: #fe0120;
+    height: 30px;
+    width: 97.1%;
+    margin-top: 0%;
+    border-radius: 5px 5px 0px 0px;
+    border: 5px #fe0120;
+    padding-left: 25px;
+    padding-top: 5px;
+    color: white;
+}
+
+.Footer{
+    float: right;
+    width: 60%;
+    margin-right: 20px;
+    padding-right: 5px;
+    text-align: right;
+    height: 50px;
+    padding-bottom: -20px;
+    margin-top: 15px;
+    font-size: 20px;
+    color: white;
+}
+
+.userAccountBg{
+    background-size: cover;
+    background-position: center;
+}

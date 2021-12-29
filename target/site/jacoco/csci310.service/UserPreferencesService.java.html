@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserPreferencesService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">csci310.service</a> &gt; <span class="el_source">UserPreferencesService.java</span></div><h1>UserPreferencesService.java</h1><pre class="source lang-java linenums">package csci310.service;
+
+import csci310.domain.*;
+import org.openqa.selenium.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@Service
+<span class="nc" id="L15">public class UserPreferencesService {</span>
+    @Autowired
+    UserRepository ur;
+    @Autowired
+    UserPreferenceRepository upr;
+    @Autowired
+    PGDRepository pgdr;
+
+    public void setPreferences(long pgdId, List&lt;List&lt;Integer&gt;&gt; prefs)
+    {
+<span class="nc" id="L25">        Authentication auth = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="nc" id="L26">        String username = ((UserDetailsImpl) auth.getPrincipal()).getUsername();</span>
+<span class="nc" id="L27">        PGD curr = pgdr.findById(pgdId)</span>
+<span class="nc" id="L28">                .orElseThrow(() -&gt; new NotFoundException(&quot;PGD Not Found with id: &quot; + pgdId));</span>
+<span class="nc" id="L29">        List&lt;Event&gt; eventList = curr.getEvents();</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        for (int i = 0; i &lt; eventList.size(); i++) {</span>
+<span class="nc" id="L31">            long eventId = eventList.get(i).getId();</span>
+<span class="nc" id="L32">            UserPreference currPref = upr.findById(username, pgdId, eventId)</span>
+<span class="nc" id="L33">                    .orElseThrow(() -&gt; new NotFoundException(&quot;Event Preference Not Found with id: &quot; + username + &quot;, &quot; + eventId));</span>
+<span class="nc" id="L34">            currPref.setIsAvailable(prefs.get(i).get(0));</span>
+<span class="nc" id="L35">            currPref.setExcitement(prefs.get(i).get(1));</span>
+<span class="nc" id="L36">            upr.save(currPref);</span>
+        }
+<span class="nc" id="L38">    }</span>
+
+    public List&lt;List&lt;Integer&gt;&gt; getPreferences(long pgdId)
+    {
+<span class="nc" id="L42">        Authentication auth = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="nc" id="L43">        String username = ((UserDetailsImpl) auth.getPrincipal()).getUsername();</span>
+<span class="nc" id="L44">        PGD curr = pgdr.findById(pgdId)</span>
+<span class="nc" id="L45">                .orElseThrow(() -&gt; new NotFoundException(&quot;PGD Not Found with id: &quot; + pgdId));</span>
+<span class="nc" id="L46">        List&lt;Event&gt; eventList = curr.getEvents();</span>
+<span class="nc" id="L47">        List&lt;List&lt;Integer&gt;&gt; ret = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        for (int i = 0; i &lt; eventList.size(); i++) {</span>
+<span class="nc" id="L49">            long eventId = eventList.get(i).getId();</span>
+<span class="nc" id="L50">            UserPreference currPref = upr.findById(username, pgdId, eventId)</span>
+<span class="nc" id="L51">                    .orElseThrow(() -&gt; new NotFoundException(&quot;Event Preference Not Found with id: &quot; + username + &quot;, &quot; + eventId));</span>
+<span class="nc" id="L52">            ArrayList&lt;Integer&gt; newPref = new ArrayList&lt;Integer&gt;(Arrays.asList(currPref.getIsAvailable(), currPref.getExcitement()));</span>
+<span class="nc" id="L53">            ret.set(i, newPref);</span>
+        }
+<span class="nc" id="L55">        return ret;</span>
+    }
+
+    public void setSubmitted(long pgdId)
+    {
+<span class="nc" id="L60">        Authentication auth = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="nc" id="L61">        String username = ((UserDetailsImpl) auth.getPrincipal()).getUsername();</span>
+<span class="nc" id="L62">        PGD curr = pgdr.findById(pgdId)</span>
+<span class="nc" id="L63">                .orElseThrow(() -&gt; new NotFoundException(&quot;PGD Not Found with id: &quot; + pgdId));</span>
+<span class="nc" id="L64">        List&lt;Event&gt; eventList = curr.getEvents();</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        for (int i = 0; i &lt; eventList.size(); i++) {</span>
+<span class="nc" id="L66">            long eventId = eventList.get(i).getId();</span>
+<span class="nc" id="L67">            UserPreference currPref = upr.findById(username, pgdId, eventId)</span>
+<span class="nc" id="L68">                    .orElseThrow(() -&gt; new NotFoundException(&quot;Event Preference Not Found with id: &quot; + username + &quot;, &quot; + eventId));</span>
+<span class="nc" id="L69">            currPref.setIsSubmitted(true);</span>
+<span class="nc" id="L70">            upr.save(currPref);</span>
+        }
+<span class="nc" id="L72">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

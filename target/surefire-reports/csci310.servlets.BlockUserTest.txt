@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: csci310.servlets.BlockUserTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.012 s <<< FAILURE! - in csci310.servlets.BlockUserTest
+testDoPost(csci310.servlets.BlockUserTest)  Time elapsed: 0.01 s  <<< FAILURE!
+java.lang.AssertionError
+	at csci310.servlets.BlockUserTest.testDoPost(BlockUserTest.java:34)
+

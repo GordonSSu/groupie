@@ -1,0 +1,61 @@
+.PrivacySetting{
+    width: 80%;
+    background-color: white;
+    height: 500px;
+    margin: 5%;
+    border: 5px white;
+    border-radius: 8px;
+    opacity: 0.9;
+    padding-left: 20px;
+}
+
+.titlenew{
+     font-family: Archivo Black;
+     font-weight: bold;
+ }
+
+#blue{
+ color:#0085FF;
+}
+
+.button{
+    width: 150px;
+}
+
+.Password{
+    height: 170px;
+    font-weight: 800;
+}
+.holder{
+    height: 170px;
+}
+.Blocked{
+    margin-left: 20px;
+    font-size: 20px;
+}
+.listItem{
+    height: 200px;
+    margin-top: -10px;
+    width: 600px;
+}
+
+
+.items{
+    width: 150px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+#blockedContainer{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+#blockUserBtn{
+    background-color: #9ee7ff;
+    border-radius: 5px;
+    border: 2px #cfcfcf;
+    height: 30px;
+    width: 200px;
+}

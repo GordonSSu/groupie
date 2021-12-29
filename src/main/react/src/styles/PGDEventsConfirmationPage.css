@@ -1,0 +1,25 @@
+
+.CenterContainer {
+    padding-left: 150px;
+    padding-right: 150px;
+    min-height: 100vh;
+    display: block;
+    padding-bottom: 100px; /* height of your footer */
+    position: relative;
+}
+
+
+.titlePGD{
+    height: 50px;
+    position: static;
+    margin-top: 0px;
+    background-color: #fff;
+    border-radius: 10px 10px 0px 0px;
+    color: black;
+}
+
+.buttonPGD{
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}

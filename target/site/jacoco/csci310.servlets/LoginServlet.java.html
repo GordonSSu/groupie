@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginServlet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">csci310.servlets</a> &gt; <span class="el_source">LoginServlet.java</span></div><h1>LoginServlet.java</h1><pre class="source lang-java linenums">package csci310.servlets;
+
+import csci310.PasswordHash;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.NoSuchAlgorithmException;
+import java.sql.*;
+
+@WebServlet(&quot;/LoginServlet&quot;)
+<span class="fc" id="L16">public class LoginServlet extends HttpServlet {</span>
+
+    private static final long serialVersionUID = 1L;
+
+<span class="fc" id="L20">    public String caughtException = &quot;&quot;;</span>
+<span class="fc" id="L21">    public Boolean throwSQLException = false;</span>
+<span class="fc" id="L22">    public Boolean throwIOException = false;</span>
+<span class="fc" id="L23">    public Boolean throwClassNotFoundException = false;</span>
+<span class="fc" id="L24">    public Boolean throwNoSuchAlgorithmException = false;</span>
+<span class="fc" id="L25">    public Boolean throwNullPointerException = false;</span>
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+<span class="fc" id="L30">        response.addHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</span>
+<span class="fc" id="L31">        response.setHeader(&quot;Access-Control-Allow-Methods&quot;, &quot;GET, POST, PUT, DELETE, OPTIONS&quot;);</span>
+
+<span class="fc" id="L33">        System.out.println(&quot;in login Servlet&quot;);</span>
+
+<span class="fc" id="L35">        Connection conn = null;</span>
+<span class="fc" id="L36">        Statement st = null;</span>
+<span class="fc" id="L37">        PreparedStatement ps = null;</span>
+<span class="fc" id="L38">        ResultSet rs = null;</span>
+        try {
+<span class="fc" id="L40">            PrintWriter out = response.getWriter();</span>
+<span class="fc" id="L41">            String username = request.getParameter(&quot;username&quot;);</span>
+<span class="fc" id="L42">            String password = request.getParameter(&quot;password&quot;);</span>
+
+<span class="fc" id="L44">            conn = DriverManager.getConnection(&quot;jdbc:sqlite:test.db&quot;);</span>
+
+<span class="fc" id="L46">            PasswordHash h = new PasswordHash();</span>
+<span class="fc" id="L47">            String hash = h.getSHA(password);</span>
+<span class="fc" id="L48">            st = conn.createStatement();</span>
+<span class="fc" id="L49">            String cmd = String.format(&quot;SELECT * FROM Users WHERE username=? AND password=?;&quot;);</span>
+<span class="fc" id="L50">            ps = conn.prepareStatement(cmd);</span>
+<span class="fc" id="L51">            ps.setString(1, username); // set first variable in prepared statement</span>
+<span class="fc" id="L52">            ps.setString(2, hash); // set first variable in prepared statement</span>
+<span class="fc" id="L53">            rs = ps.executeQuery();</span>
+
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if (!rs.next()) {</span>
+<span class="fc" id="L56">                System.out.println(&quot;no such login credential: &quot; + username);</span>
+<span class="fc" id="L57">                out.print(&quot;&quot;);</span>
+            } else {
+<span class="fc" id="L59">                out.println(&quot;{&quot;);</span>
+<span class="fc" id="L60">                out.println(&quot;\&quot;token\&quot; : \&quot;&quot; + hash + &quot;\&quot;&quot;);</span>
+<span class="fc" id="L61">                out.println(&quot;}&quot;);</span>
+            }
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            if (throwSQLException) {</span>
+<span class="fc" id="L64">                throw new SQLException();</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">            } else if (throwIOException) {</span>
+<span class="fc" id="L66">                throw new IOException();</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            } else if (throwClassNotFoundException) {</span>
+<span class="fc" id="L68">                throw new ClassNotFoundException();</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">            } else if (throwNoSuchAlgorithmException) {</span>
+<span class="fc" id="L70">                throw new NoSuchAlgorithmException();</span>
+            }
+        }
+<span class="fc" id="L73">        catch (SQLException e) {</span>
+<span class="fc" id="L74">            caughtException = &quot;SQLException&quot;;</span>
+<span class="fc" id="L75">            System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L76">        } catch (IOException e) {</span>
+<span class="fc" id="L77">            caughtException = &quot;IOException&quot;;</span>
+<span class="fc" id="L78">            System.out.println(&quot;IOException: &quot; + e.getMessage());</span>
+<span class="fc" id="L79">        } catch (ClassNotFoundException e) {</span>
+<span class="fc" id="L80">            caughtException = &quot;ClassNotFoundException&quot;;</span>
+<span class="fc" id="L81">            System.out.println(&quot;ClassNotFoundException: &quot; + e.getMessage());</span>
+<span class="fc" id="L82">        } catch (NoSuchAlgorithmException e) {</span>
+<span class="fc" id="L83">            caughtException = &quot;NoSuchAlgorithmException&quot;;</span>
+<span class="fc" id="L84">            System.out.println(&quot;NoSuchAlgorithmException: &quot; + e.getMessage());</span>
+        } finally {
+            try {
+<span class="fc" id="L87">                rs.close();</span>
+<span class="fc" id="L88">                st.close();</span>
+<span class="fc" id="L89">                ps.close();</span>
+<span class="fc" id="L90">                conn.close();</span>
+
+<span class="fc bfc" id="L92" title="All 2 branches covered.">                if (throwSQLException) {</span>
+<span class="fc" id="L93">                    throw new SQLException();</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">                } if (throwNullPointerException) {</span>
+<span class="fc" id="L95">                    throw new NullPointerException();</span>
+                }
+<span class="fc" id="L97">            } catch (SQLException e) {</span>
+<span class="fc" id="L98">                caughtException = &quot;SQLException&quot;;</span>
+<span class="fc" id="L99">                System.out.println(&quot;SQLException: &quot; + e.getMessage());</span>
+<span class="fc" id="L100">            } catch (NullPointerException e) {</span>
+<span class="fc" id="L101">                caughtException = &quot;NullPointerException&quot;;</span>
+<span class="fc" id="L102">                System.out.println(&quot;NullPointerException: &quot; + e.getMessage());</span>
+<span class="fc" id="L103">            }</span>
+        }
+<span class="fc" id="L105">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: csci310.TicketMasterInterfaceTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.322 s - in csci310.TicketMasterInterfaceTest

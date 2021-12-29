@@ -1,0 +1,44 @@
+#autocomplete-wrapper{
+    font-size: 20px;
+    margin-right: 4%;
+    width: 45%;
+}
+#autocomplete-wrapper input{
+    width: 100%;
+    height: 48px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    background-color: #C9C9C9;
+    font-size: 20px;
+    padding-left: 10px;
+}
+
+#autocomplete-wrapper input:focus{
+    border-radius: 10px 10px 0 0;
+}
+
+#autocomplete-wrapper > div{
+    width: 100%;
+}
+
+#autocomplete-wrapper > div > div div:last-child{
+    border-radius: 0 0 10px 10px;
+}
+
+.item{
+    padding:5px;
+}
+
+/*#autocomplete-wrapper .dropdown {*/
+/*    width: 100%;*/
+/*    padding: 0;*/
+/*    text-align: left;*/
+/*    max-height: 280px;*/
+/*    overflow: hidden;*/
+/*    overflow-y: auto;*/
+/*    background-color: #ffffff;*/
+/*    border: 1px solid #0F67FF;*/
+/*    border-top: none;*/
+/*}*/
+

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">csci310.domain</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">package csci310.domain;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.util.List;
+
+@Entity
+@Table( name = &quot;Users&quot; )
+public class User {
+    @Id
+    @NotBlank
+    @Size(min = 3, max = 20)
+    private String username;
+
+    @NotBlank
+    private String password;
+
+    private String role;
+
+    @ManyToMany(mappedBy = &quot;blocked&quot;)
+    private List&lt;User&gt; blockedBy;
+
+    @ManyToMany
+    private List&lt;User&gt; blocked;
+
+    @ManyToMany(mappedBy = &quot;invitedUsers&quot;)
+    private List&lt;PGD&gt; invitedPgds;
+
+    @ManyToMany(mappedBy = &quot;invitedUsersNotResponded&quot;)
+    private List&lt;PGD&gt; notRespondedPgds;
+
+    @ManyToMany(mappedBy = &quot;invitedUsersInProgress&quot;)
+    private List&lt;PGD&gt; inProgressPgds;
+
+    @ManyToMany(mappedBy = &quot;invitedUsersSubmitted&quot;)
+    private List&lt;PGD&gt; submittedButUnconfirmedPgds;
+
+    @ManyToMany(mappedBy = &quot;invitedUsersAttending&quot;)
+    private List&lt;PGD&gt; confirmedPgds;
+
+    @ManyToMany(mappedBy = &quot;invitedUsersDeclinedOrCannotGo&quot;)
+    private List&lt;PGD&gt; declinedOrCannotGoPgds;
+
+<span class="nc" id="L44">    public User() {</span>
+<span class="nc" id="L45">    }</span>
+
+<span class="fc" id="L47">    public User(String username, String password) {</span>
+<span class="fc" id="L48">        this.username = username;</span>
+<span class="fc" id="L49">        this.password = password;</span>
+<span class="fc" id="L50">    }</span>
+
+    public String getUsername() {
+<span class="fc" id="L53">        return username;</span>
+    }
+
+    public void setUsername(String username) {
+<span class="nc" id="L57">        this.username = username;</span>
+<span class="nc" id="L58">    }</span>
+
+    public String getPassword() {
+<span class="nc" id="L61">        return password;</span>
+    }
+
+    public void setPassword(String password) {
+<span class="nc" id="L65">        this.password = password;</span>
+<span class="nc" id="L66">    }</span>
+
+<span class="nc" id="L68">    public String getRoles() { return role; }</span>
+<span class="nc" id="L69">    public void setRoles(String role) { this.role = role; }</span>
+
+    public List&lt;User&gt; getBlockedBy() {
+<span class="nc" id="L72">        return blockedBy;</span>
+    }
+
+    public void setBlockedBy(List&lt;User&gt; blockedBy) {
+<span class="nc" id="L76">        this.blockedBy = blockedBy;</span>
+<span class="nc" id="L77">    }</span>
+
+    public List&lt;User&gt; getBlocked() {
+<span class="nc" id="L80">        return blocked;</span>
+    }
+
+    public void setBlocked(List&lt;User&gt; blocked) {
+<span class="nc" id="L84">        this.blocked = blocked;</span>
+<span class="nc" id="L85">    }</span>
+
+    public List&lt;PGD&gt; getNotRespondedPgds() {
+<span class="nc" id="L88">        return notRespondedPgds;</span>
+    }
+
+    public void setNotRespondedPgds(List&lt;PGD&gt; notRespondedPgds) {
+<span class="nc" id="L92">        this.notRespondedPgds = notRespondedPgds;</span>
+<span class="nc" id="L93">    }</span>
+
+    public List&lt;PGD&gt; getInProgressPgds() {
+<span class="nc" id="L96">        return inProgressPgds;</span>
+    }
+
+    public void setInProgressPgds(List&lt;PGD&gt; inProgressPgds) {
+<span class="nc" id="L100">        this.inProgressPgds = inProgressPgds;</span>
+<span class="nc" id="L101">    }</span>
+
+    public List&lt;PGD&gt; getSubmittedButUnconfirmedPgds() {
+<span class="nc" id="L104">        return submittedButUnconfirmedPgds;</span>
+    }
+
+    public void setSubmittedButUnconfirmedPgds(List&lt;PGD&gt; submittedButUnconfirmedPgds) {
+<span class="nc" id="L108">        this.submittedButUnconfirmedPgds = submittedButUnconfirmedPgds;</span>
+<span class="nc" id="L109">    }</span>
+
+    public List&lt;PGD&gt; getConfirmedPgds() {
+<span class="nc" id="L112">        return confirmedPgds;</span>
+    }
+
+    public void setConfirmedPgds(List&lt;PGD&gt; confirmedPgds) {
+<span class="nc" id="L116">        this.confirmedPgds = confirmedPgds;</span>
+<span class="nc" id="L117">    }</span>
+
+    public List&lt;PGD&gt; getInvitedPgds() {
+<span class="nc" id="L120">        return invitedPgds;</span>
+    }
+
+    public void setInvitedPgds(List&lt;PGD&gt; invitedPgds) {
+<span class="nc" id="L124">        this.invitedPgds = invitedPgds;</span>
+<span class="nc" id="L125">    }</span>
+
+    public List&lt;PGD&gt; getDeclinedOrCannotGoPgds() {
+<span class="nc" id="L128">        return declinedOrCannotGoPgds;</span>
+    }
+
+    public void setDeclinedOrCannotGoPgds(List&lt;PGD&gt; declinedOrCannotGoPgds) {
+<span class="nc" id="L132">        this.declinedOrCannotGoPgds = declinedOrCannotGoPgds;</span>
+<span class="nc" id="L133">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

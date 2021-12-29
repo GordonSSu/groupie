@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PrivacyService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">csci310.service</a> &gt; <span class="el_source">PrivacyService.java</span></div><h1>PrivacyService.java</h1><pre class="source lang-java linenums">package csci310.service;
+
+import csci310.domain.User;
+import csci310.domain.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="nc" id="L14">public class PrivacyService {</span>
+    @Autowired
+    UserRepository ur;
+
+    public void setNewBlocked(String block)
+    {
+<span class="nc" id="L20">        Authentication auth = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="nc" id="L21">        String username = ((UserDetailsImpl) auth.getPrincipal()).getUsername();</span>
+<span class="nc" id="L22">        User user = ur.findByUsername(username)</span>
+<span class="nc" id="L23">                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;User Not Found with username: &quot; + username));</span>
+<span class="nc" id="L24">        List&lt;User&gt; blocked = user.getBlocked();</span>
+<span class="nc" id="L25">        User blockusr = ur.findByUsername(block)</span>
+<span class="nc" id="L26">                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;User Not Found with username: &quot; + block));</span>
+<span class="nc" id="L27">        blocked.add(blockusr);</span>
+<span class="nc" id="L28">        user.setBlocked(blocked);</span>
+<span class="nc" id="L29">        ur.save(user);</span>
+<span class="nc" id="L30">    }</span>
+
+    public void setNewUnblocked(String unblock)
+    {
+<span class="nc" id="L34">        Authentication auth = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="nc" id="L35">        String username = ((UserDetailsImpl) auth.getPrincipal()).getUsername();</span>
+<span class="nc" id="L36">        User user = ur.findByUsername(username)</span>
+<span class="nc" id="L37">                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;User Not Found with username: &quot; + username));</span>
+<span class="nc" id="L38">        List&lt;User&gt; blocked = user.getBlocked();</span>
+<span class="nc" id="L39">        User blockusr = ur.findByUsername(unblock)</span>
+<span class="nc" id="L40">                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;User Not Found with username: &quot; + unblock));</span>
+<span class="nc" id="L41">        blocked.remove(blockusr);</span>
+<span class="nc" id="L42">        user.setBlocked(blocked);</span>
+<span class="nc" id="L43">        ur.save(user);</span>
+<span class="nc" id="L44">    }</span>
+
+    public List&lt;User&gt; getBlocked()
+    {
+<span class="nc" id="L48">        Authentication auth = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="nc" id="L49">        String username = ((UserDetailsImpl) auth.getPrincipal()).getUsername();</span>
+<span class="nc" id="L50">        User user = ur.findByUsername(username)</span>
+<span class="nc" id="L51">                .orElseThrow(() -&gt; new UsernameNotFoundException(&quot;User Not Found with username: &quot; + username));</span>
+<span class="nc" id="L52">        return user.getBlocked();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

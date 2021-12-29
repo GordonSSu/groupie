@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PgdDetailsController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project</a> &gt; <a href="index.source.html" class="el_package">csci310.web</a> &gt; <span class="el_source">PgdDetailsController.java</span></div><h1>PgdDetailsController.java</h1><pre class="source lang-java linenums">package csci310.web;
+
+import csci310.domain.PGD;
+import csci310.payload.PgdDetailsRequest;
+import csci310.payload.PgdResponsesRequest;
+import csci310.service.PgdDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@CrossOrigin(origins = &quot;http://localhost:3000&quot;, allowedHeaders = &quot;*&quot;)
+@RestController
+@RequestMapping(&quot;/app&quot;)
+<span class="nc" id="L16">public class PgdDetailsController {</span>
+    @Autowired
+    PgdDetailsService service;
+
+    @PostMapping(&quot;/pgddetails&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    public void setOptimalDate(@RequestBody PgdDetailsRequest request)
+    {
+<span class="nc" id="L24">        service.setOptimalEvent(request.getPgdId());</span>
+<span class="nc" id="L25">    }</span>
+
+    @GetMapping(&quot;/pgddetails&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    public PGD getPgdDetails(@RequestBody PgdDetailsRequest request)
+    {
+<span class="nc" id="L31">        return service.getPgdDetails(request.getPgdId());</span>
+    }
+
+    @GetMapping(&quot;/pgdresponses&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    public List&lt;List&lt;Integer&gt;&gt; getPgdResponses(@RequestBody PgdResponsesRequest request)
+    {
+<span class="nc" id="L38">        return service.getPgdResponses(request.getPgdId(), request.getEventId());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
